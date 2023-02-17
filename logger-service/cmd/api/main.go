@@ -18,7 +18,7 @@ const (
 	webPort  = "80"
 	rpcPort  = "5001"
 	mongoURL = "mongodb://mongo:27017"
-	gRPC     = "50001"
+	gRPCPort = "50001"
 )
 
 var client *mongo.Client
@@ -52,6 +52,9 @@ func main() {
 	// Register the RPC server
 	err = rpc.Register(new(RPCServer))
 	go app.rpcListen()
+
+	// Listening gRPC connection
+	go app.gRPCListen()
 
 	log.Println("Starting service on port:", webPort)
 	src := &http.Server{
